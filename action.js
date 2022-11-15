@@ -9,12 +9,12 @@ fetch(API, {
 	},
 	body: JSON.stringify({
 		content: `${content} 
-            ${tag}`,
+           \n ${tag}`,
 	}),
 })
 	.then((response) => response.json())
 	.then((data) => {
-		// alfred post notification
+		// output
 		console.log(data.message);
 	})
 	.catch((error) => {
