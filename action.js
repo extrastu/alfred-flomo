@@ -1,20 +1,18 @@
-import alfy from "alfy";
-
 const content = process.argv[2];
 const API = process.env.API || "";
 const tag = process.env.TAG || "";
 
-alfy
-	.fetch(API, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		json: {
-			content: `${content} 
+fetch(API, {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json",
+	},
+	body: JSON.stringify({
+		content: `${content} 
             ${tag}`,
-		},
-	})
+	}),
+})
+	.then((response) => response.json())
 	.then((data) => {
 		// alfred post notification
 		console.log(data.message);

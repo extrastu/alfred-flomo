@@ -138,11 +138,20 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string># send text to flomo with alfred
+	<string># alfred-flomo
+
+&gt; send text to flomo with alfred 
 
 ## requirement
 
-1. `brew install node`</string>
+- `brew install node`
+
+
+## how to use
+
+1. [get flomo PRO API](https://v.flomoapp.com/mine?source=incoming_webhook)
+
+2. set alfred-flomo env API</string>
 	<key>uidata</key>
 	<dict>
 		<key>01DCFAA3-326A-48EA-9C7C-485E2AD24E64</key>
@@ -181,7 +190,7 @@
 		<string>API</string>
 	</array>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
