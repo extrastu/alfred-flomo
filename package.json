@@ -1,6 +1,6 @@
 {
   "name": "alfred-flomo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "send text to flomo with alfred",
   "main": "index.js",
   "scripts": {

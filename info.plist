@@ -164,9 +164,9 @@
 		<key>3F1D3A3E-79A5-4D9B-ADFC-1067BACCB184</key>
 		<dict>
 			<key>xpos</key>
-			<real>670</real>
+			<real>660</real>
 			<key>ypos</key>
-			<real>220</real>
+			<real>225</real>
 		</dict>
 		<key>442E8D26-11B8-4C09-8158-D3BE38BD7EF1</key>
 		<dict>
@@ -192,6 +192,6 @@
 	<key>version</key>
 	<string>1.0.1</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/extrastu/alfred-flomo</string>
 </dict>
 </plist>
