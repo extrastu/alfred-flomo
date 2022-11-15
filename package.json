@@ -1,0 +1,21 @@
+{
+  "name": "alfred-flomo",
+  "version": "1.0.0",
+  "description": "send text to flomo with alfred",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "flomo",
+    "alfred",
+    "workflow",
+    "alfred-workflow"
+  ],
+  "author": "extrastu",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "alfy": "^1.0.0"
+  }
+}
