@@ -6,11 +6,11 @@
 	<string>extrastu.me.alfred-flomo</string>
 	<key>connections</key>
 	<dict>
-		<key>01DCFAA3-326A-48EA-9C7C-485E2AD24E64</key>
+		<key>BB950905-F1D8-4605-8B18-8F9A2CC2532E</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>442E8D26-11B8-4C09-8158-D3BE38BD7EF1</string>
+				<string>3A4A5857-3138-4FAE-909E-6348621AEFD2</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -19,11 +19,11 @@
 				<false/>
 			</dict>
 		</array>
-		<key>442E8D26-11B8-4C09-8158-D3BE38BD7EF1</key>
+		<key>EBB428A5-5E3F-4262-83A3-3F3A40D0FAD2</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>3F1D3A3E-79A5-4D9B-ADFC-1067BACCB184</string>
+				<string>BB950905-F1D8-4605-8B18-8F9A2CC2532E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -36,34 +36,13 @@
 	<key>createdby</key>
 	<string>extrastu</string>
 	<key>description</key>
-	<string>alfred to flomo</string>
+	<string>send text to flomo with alfred</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
 	<string>alfred-flomo</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<true/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>通知</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>3F1D3A3E-79A5-4D9B-ADFC-1067BACCB184</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -78,7 +57,7 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>102</integer>
+				<integer>68</integer>
 				<key>keyword</key>
 				<string>flomo</string>
 				<key>queuedelaycustom</key>
@@ -92,7 +71,27 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>/usr/local/bin/node index.js "$1"</string>
+				<string>require 'json'
+
+API = ENV['API']
+
+if API == ""
+	  items = [
+		  {
+			  title: "尚未设置 API",
+			  subtitle: "请在 workflow 配置中设置 API",
+		  },
+	  ]
+else
+	items = [
+		{
+			title: "发送 #{ARGV[0]} 到 flomo",
+			arg: ARGV[0],
+		},
+	]
+end
+
+puts({ items: items }.to_json)</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -102,16 +101,37 @@
 				<key>title</key>
 				<string></string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>01DCFAA3-326A-48EA-9C7C-485E2AD24E64</string>
+			<string>EBB428A5-5E3F-4262-83A3-3F3A40D0FAD2</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>通知</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>3A4A5857-3138-4FAE-909E-6348621AEFD2</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -121,18 +141,48 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/local/bin/node action.js "$1"</string>
+				<string>require 'net/http'
+require 'uri'
+require 'json'
+
+API = ENV['API']
+TAG = ENV['TAG']
+
+uri = URI.parse(API)
+
+# Set parameters
+params = {
+  content:  ARGV[0] +"
+" + TAG
+}
+# Set headers
+headers = {
+    'Content-Type': 'application/json',
+ 
+}
+https = Net::HTTP.new(uri.host, uri.port)
+https.use_ssl = true
+request = Net::HTTP::Post.new(uri.request_uri, headers)
+request.body = params.to_json
+
+response = https.request(request)
+
+res = JSON.parse(response.body)
+
+message = res['message']
+
+puts res['message']</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>442E8D26-11B8-4C09-8158-D3BE38BD7EF1</string>
+			<string>BB950905-F1D8-4605-8B18-8F9A2CC2532E</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -142,10 +192,6 @@
 
 &gt; send text to flomo with alfred 
 
-## requirement
-
-- `brew install node`
-
 
 ## how to use
 
@@ -154,26 +200,26 @@
 2. set alfred-flomo env API</string>
 	<key>uidata</key>
 	<dict>
-		<key>01DCFAA3-326A-48EA-9C7C-485E2AD24E64</key>
+		<key>3A4A5857-3138-4FAE-909E-6348621AEFD2</key>
 		<dict>
 			<key>xpos</key>
-			<real>80</real>
+			<real>620</real>
 			<key>ypos</key>
-			<real>225</real>
+			<real>395</real>
 		</dict>
-		<key>3F1D3A3E-79A5-4D9B-ADFC-1067BACCB184</key>
+		<key>BB950905-F1D8-4605-8B18-8F9A2CC2532E</key>
 		<dict>
 			<key>xpos</key>
-			<real>660</real>
+			<real>355</real>
 			<key>ypos</key>
-			<real>225</real>
+			<real>395</real>
 		</dict>
-		<key>442E8D26-11B8-4C09-8158-D3BE38BD7EF1</key>
+		<key>EBB428A5-5E3F-4262-83A3-3F3A40D0FAD2</key>
 		<dict>
 			<key>xpos</key>
-			<real>350</real>
+			<real>85</real>
 			<key>ypos</key>
-			<real>225</real>
+			<real>390</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -181,16 +227,14 @@
 	<key>variables</key>
 	<dict>
 		<key>API</key>
-		<string>https://flomoapp.com/iwh/NjM0/6b07088247ea3df943e783a0db3849d4/</string>
+		<string></string>
 		<key>TAG</key>
 		<string>#alfred</string>
 	</dict>
 	<key>variablesdontexport</key>
-	<array>
-		<string>API</string>
-	</array>
+	<array/>
 	<key>version</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/extrastu/alfred-flomo</string>
 </dict>
